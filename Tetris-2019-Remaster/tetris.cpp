@@ -1,5 +1,17 @@
 #include "tetris.h"
 
+const int TetrisField::node_size = 4;
+const int TetrisField::field_width = 18;
+const int TetrisField::field_height = 28;
+const int TetrisField::ingame_width = 10;
+const int TetrisField::ingame_height = 20;
+const int TetrisField::ingame_col_start = 4;
+const int TetrisField::ingame_col_end = 14;
+const int TetrisField::ingame_row_start = 4;
+const int TetrisField::ingame_row_end = 24;
+
+const TetrisField::Cursor TetrisField::start_point = { 0, (int)(field_width / 2) - 2 };
+
 TetrisField::Cursor::Cursor()
 {
 	row = 0;
@@ -25,7 +37,7 @@ void TetrisField::reset_cursor()
 
 void TetrisField::init_map()
 {
-	init_map(map);
+	init_map(*map);
 }
 
 void TetrisField::init_map(Array2d& map) const
@@ -56,16 +68,23 @@ void TetrisField::init_map(Array2d& map) const
 	}
 }
 
-std::vector<bool> TetrisField::get_empty_map_row() const
+// @warning you should delete return pointer!!
+std::vector<bool> *TetrisField::get_empty_map_row() const
 {
-	std::vector<bool> answer;
-	for (int i = 0; i < ingame_col_start; i++)
-		answer.push_back(true);
-	for (int i = ingame_col_start; i < ingame_col_end; i++)
-		answer.push_back(false);
-	for (int i = ingame_col_end; i < field_width; i++)
-		answer.push_back(true);
-	return answer;
+	try {
+		std::vector<bool>* answer = new std::vector<bool>;
+		for (int i = 0; i < ingame_col_start; i++)
+			answer->push_back(true);
+		for (int i = ingame_col_start; i < ingame_col_end; i++)
+			answer->push_back(false);
+		for (int i = ingame_col_end; i < field_width; i++)
+			answer->push_back(true);
+		return answer;
+	}
+	catch(const std::bad_alloc& e){
+		std::cerr << "TetrisField::get_empty_map_row(): dynamic allocation error" << std::endl;
+		exit(1);
+	}
 }
 
 // @brief init this->current_node to node
@@ -176,10 +195,11 @@ bool TetrisField::can_rotate_node(const Array2d& next_shape) const
 	{
 		for (int j = 0; j < node_size; j++)
 		{
-			if (map[cursor.row + i][cursor.col + j] & next_shape[i][j])
+			if ((*map)[cursor.row + i][cursor.col + j] & next_shape[i][j])
 				return false;
 		}
 	}
+
 	return true;
 }
 
@@ -222,7 +242,7 @@ bool TetrisField::is_node(const Array2d& node) const
 
 void TetrisField::init_graphic()
 {
-	graphic = map;
+	graphic = *map;
 }
 
 void TetrisField::render_graphic()
@@ -274,7 +294,7 @@ void TetrisField::print_out(const bool whole) const
 // @brief graphic to map
 void TetrisField::apply_to_map()
 {
-	map = graphic;
+	*map = graphic;
 }
 
 // @usage 
@@ -285,41 +305,68 @@ void TetrisField::break_floor(const std::set<int>& break_rows)
 	if (break_rows.size() == 0)
 		return;
 
-	Array2d new_map;
+	try {
+		Array2d* new_map = new Array2d;
+		Array2d* old_map = map;
+		for (unsigned int i = 0; i < break_rows.size(); i++)
+		{
+			try
+			{
+				std::vector<bool>* empty_row = get_empty_map_row();
+				new_map->push_back(*empty_row);
+				delete empty_row;
+				empty_row = nullptr;
+			}
+			catch(const std::bad_alloc &e)
+			{
+				std::cerr << "TetrisField::break_floor(): dynamic allocation error" << std::endl;
+				exit(1);
+			}
+		}
 
-	for (unsigned int i = 0; i < break_rows.size(); i++)
-	{
-		new_map.push_back(get_empty_map_row());
+		for (unsigned int i = 0; i < map->size(); i++)
+		{
+			if (break_rows.find(i) == break_rows.end()) //< no exist
+				new_map->push_back((*map)[i]);
+		}
+		map = new_map;
+		delete old_map;
+		old_map = nullptr;
 	}
-
-	for (unsigned int i = 0; i < map.size(); i++)
-	{
-		if (break_rows.find(i) == break_rows.end()) //< no exist
-			new_map.push_back(map[i]);
+	catch (const std::bad_alloc & e) {
+		std::cerr << "TetrisField(): dynamic allocation error" << std::endl;
+		exit(1);
 	}
-
-	map = new_map;
 }
 
 // @return where should break
-std::set<int> TetrisField::check_break_rows() const
+// @warning you should delete return pointer!!
+std::set<int> *TetrisField::check_break_rows() const
 {
-	std::set<int> break_rows;
-
-	for (int i = cursor.row; i < cursor.row + 4; i++)
+	try
 	{
-		if (i >= ingame_row_end)
-			continue;
-		for (int j = ingame_col_start; j < ingame_col_end; j++)
+		std::set<int>* break_rows = new std::set<int>;
+		for (int i = cursor.row; i < cursor.row + 4; i++)
 		{
-			if (!map[i][j])
-				break;
-			if (j == ingame_col_end - 1)
-				break_rows.insert(i);
+			if (i >= ingame_row_end)
+				continue;
+			for (int j = ingame_col_start; j < ingame_col_end; j++)
+			{
+				if (!(*map)[i][j])
+					break;
+				if (j == ingame_col_end - 1)
+					break_rows->insert(i);
+			}
 		}
-	}
 
-	return break_rows;
+		return break_rows;
+	}
+	catch (const std::bad_alloc& e)
+	{
+		std::cerr << "TetrisField::check_break_rows(): dynamic allocation error" << std::endl;
+		exit(1);
+	}
+	
 }
 
 // @usage use after break_floor()
@@ -327,7 +374,7 @@ bool TetrisField::is_gameover() const
 {
 	for (int i = ingame_col_start; i < ingame_col_end; i++)
 	{
-		if (map[ingame_row_start - 1][i])
+		if ((*map)[ingame_row_start - 1][i])
 			return true;
 	}
 
@@ -355,7 +402,7 @@ bool TetrisField::can_move_node(const Direction direction) const
 	{
 		for (int j = next.col; j < next.col + node_size; j++)
 		{
-			if (map[i][j] & node[i - next.row][j - next.col])
+			if ((*map)[i][j] & node[i - next.row][j - next.col])
 				return false;
 		}
 	}
@@ -418,6 +465,15 @@ std::string TetrisField::get_shape_string(const bool value) const
 
 TetrisField::TetrisField()
 {
+	try {
+		map = new Array2d;
+	}
+	catch (const std::bad_alloc & e)
+	{
+		std::cerr << "TetrisField::TetrisField(): dynamic allocation error" << std::endl;
+		exit(1);
+	}
+
 	reset_cursor();
 	cycle = 10;
 	init_map();
@@ -430,6 +486,12 @@ TetrisField::TetrisField()
 TetrisField::TetrisField(int cycle) : TetrisField()
 {
 	this->cycle = cycle;
+}
+
+TetrisField::~TetrisField()
+{
+	delete map;
+	map = nullptr;
 }
 
 void TetrisField::start()
@@ -482,7 +544,19 @@ void TetrisField::update()
 			if (!move_node(Direction::down))
 			{
 				apply_to_map();
-				break_floor(check_break_rows());
+				try
+				{
+					std::set<int>* should_break_rows = check_break_rows();
+					break_floor(*should_break_rows);
+					delete should_break_rows;
+					should_break_rows = nullptr;
+				}
+				catch (const std::bad_alloc& e)
+				{
+					std::cerr << "TetrisField::update(): dynamic allocation error" << std::endl;
+					exit(1);
+				}
+				
 				if (is_gameover())
 					break;
 				reset_cursor();
@@ -509,21 +583,6 @@ void TetrisField::title(const std::string& input) const
 	}
 	str.append(input);
 	std::cout << str;
-}
-
-std::string TetrisField::array2d_to_string(const Array2d& object) const
-{
-	std::string answer;
-	for (unsigned int i = 0; i < object.size(); i++)
-	{
-		for (unsigned int j = 0; j < object.front().size(); j++)
-		{
-			answer.append(get_shape_string(object[i][j]));
-		}
-		answer.push_back('\n');
-	}
-
-	return answer;
 }
 
 // @brief ignore this
