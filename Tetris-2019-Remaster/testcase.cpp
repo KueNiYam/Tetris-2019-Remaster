@@ -4,7 +4,7 @@ namespace testcase
 {
 	void tetris_test()
 	{
-		TetrisField tetrisField = TetrisField(500);
+		Tetris tetrisField = Tetris(500);
 		tetrisField.test();
 		// tetrisField.start();
 		// tetrisField.update();

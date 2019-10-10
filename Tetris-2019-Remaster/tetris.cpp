@@ -1,46 +1,46 @@
 #include "tetris.h"
 
-const int TetrisField::node_size = 4;
-const int TetrisField::field_width = 18;
-const int TetrisField::field_height = 28;
-const int TetrisField::ingame_width = 10;
-const int TetrisField::ingame_height = 20;
-const int TetrisField::ingame_col_start = 4;
-const int TetrisField::ingame_col_end = 14;
-const int TetrisField::ingame_row_start = 4;
-const int TetrisField::ingame_row_end = 24;
+const int Tetris::node_size = 4;
+const int Tetris::field_width = 18;
+const int Tetris::field_height = 28;
+const int Tetris::ingame_width = 10;
+const int Tetris::ingame_height = 20;
+const int Tetris::ingame_col_start = 4;
+const int Tetris::ingame_col_end = 14;
+const int Tetris::ingame_row_start = 4;
+const int Tetris::ingame_row_end = 24;
 
-const TetrisField::Cursor TetrisField::start_point = { 0, (int)(field_width / 2) - 2 };
+const Tetris::Cursor Tetris::start_point = { 0, (int)(field_width / 2) - 2 };
 
-TetrisField::Cursor::Cursor()
+Tetris::Cursor::Cursor()
 {
 	row = 0;
 	col = 0;
 }
 
-TetrisField::Cursor::Cursor(const struct Cursor& cursor)
+Tetris::Cursor::Cursor(const struct Cursor& cursor)
 {
 	col = cursor.col;
 	row = cursor.row;
 }
 
-TetrisField::Cursor::Cursor(int row, int col)
+Tetris::Cursor::Cursor(int row, int col)
 {
 	this->row = row;
 	this->col = col;
 }
 
-void TetrisField::reset_cursor()
+void Tetris::reset_cursor()
 {
 	cursor = start_point;
 }
 
-void TetrisField::init_map()
+void Tetris::init_map()
 {
 	init_map(*map);
 }
 
-void TetrisField::init_map(Array2d& map) const
+void Tetris::init_map(Array2d& map) const
 {
 	if (!map.empty())
 	{
@@ -69,7 +69,7 @@ void TetrisField::init_map(Array2d& map) const
 }
 
 // @warning you should delete return pointer!!
-std::vector<bool> *TetrisField::get_empty_map_row() const
+std::vector<bool> *Tetris::get_empty_map_row() const
 {
 	try {
 		std::vector<bool>* answer = new std::vector<bool>;
@@ -88,14 +88,14 @@ std::vector<bool> *TetrisField::get_empty_map_row() const
 }
 
 // @brief init this->current_node to node
-void TetrisField::init_node()
+void Tetris::init_node()
 {
 	init_node(node);
 }
 
 // @brief init array2d to node
 // @param new_array2d is 2d array that has no size
-void TetrisField::init_node(Array2d& other) const
+void Tetris::init_node(Array2d& other) const
 {
 	if (!other.empty())
 	{
@@ -110,13 +110,13 @@ void TetrisField::init_node(Array2d& other) const
 		other.push_back(temp);
 }
 
-void TetrisField::set_node_shape()
+void Tetris::set_node_shape()
 {
 	set_node_shape(rand() % 7);
 }
 
 // @lparam [0,7)
-void TetrisField::set_node_shape(const int shape_num)
+void Tetris::set_node_shape(const int shape_num)
 {
 	if (!is_node(node))
 	{
@@ -176,7 +176,7 @@ void TetrisField::set_node_shape(const int shape_num)
 }
 
 // @brief make all node value false(0)
-void TetrisField::clear_node()
+void Tetris::clear_node()
 {
 	if (!is_node(node))
 	{
@@ -189,7 +189,7 @@ void TetrisField::clear_node()
 			node[i][j] = false;
 }
 
-bool TetrisField::can_rotate_node(const Array2d& next_shape) const
+bool Tetris::can_rotate_node(const Array2d& next_shape) const
 {
 	for (int i = 0; i < node_size; i++)
 	{
@@ -204,7 +204,7 @@ bool TetrisField::can_rotate_node(const Array2d& next_shape) const
 }
 
 // @brief rotate node to right
-void TetrisField::rotate_node()
+void Tetris::rotate_node()
 {
 	if (!is_node(node))
 	{
@@ -230,7 +230,7 @@ void TetrisField::rotate_node()
 		node.swap(temp);
 }
 
-bool TetrisField::is_node(const Array2d& node) const
+bool Tetris::is_node(const Array2d& node) const
 {
 	if (node.size() != node_size)
 		return false;
@@ -240,12 +240,12 @@ bool TetrisField::is_node(const Array2d& node) const
 	return true;
 }
 
-void TetrisField::init_graphic()
+void Tetris::init_graphic()
 {
 	graphic = *map;
 }
 
-void TetrisField::render_graphic()
+void Tetris::render_graphic()
 {
 	pregraphic = graphic;
 	init_graphic();
@@ -262,7 +262,7 @@ void TetrisField::render_graphic()
 // @param
 // true -> print out whole
 // false -> print out partially
-void TetrisField::print_out(const bool whole) const
+void Tetris::print_out(const bool whole) const
 {
 	if (whole)
 	{
@@ -292,7 +292,7 @@ void TetrisField::print_out(const bool whole) const
 }
 
 // @brief graphic to map
-void TetrisField::apply_to_map()
+void Tetris::apply_to_map()
 {
 	*map = graphic;
 }
@@ -300,7 +300,7 @@ void TetrisField::apply_to_map()
 // @usage 
 // use after apply_to_map
 // don't need to check condition
-void TetrisField::break_floor(const std::set<int>& break_rows)
+void Tetris::break_floor(const std::set<int>& break_rows)
 {
 	if (break_rows.size() == 0)
 		return;
@@ -341,7 +341,7 @@ void TetrisField::break_floor(const std::set<int>& break_rows)
 
 // @return where should break
 // @warning you should delete return pointer!!
-std::set<int> *TetrisField::check_break_rows() const
+std::set<int> *Tetris::check_break_rows() const
 {
 	try
 	{
@@ -370,7 +370,7 @@ std::set<int> *TetrisField::check_break_rows() const
 }
 
 // @usage use after break_floor()
-bool TetrisField::is_gameover() const
+bool Tetris::is_gameover() const
 {
 	for (int i = ingame_col_start; i < ingame_col_end; i++)
 	{
@@ -381,19 +381,19 @@ bool TetrisField::is_gameover() const
 	return false;
 }
 
-bool TetrisField::can_move_node(const Direction direction) const
+bool Tetris::can_move_node(const Direction direction) const
 {
 	struct Cursor next = cursor;
 
 	switch (direction)
 	{
-	case TetrisField::Direction::down:
+	case Tetris::Direction::down:
 		next.row += 1;
 		break;
-	case TetrisField::Direction::left:
+	case Tetris::Direction::left:
 		next.col -= 1;
 		break;
-	case TetrisField::Direction::right:
+	case Tetris::Direction::right:
 		next.col += 1;
 		break;
 	}
@@ -410,20 +410,20 @@ bool TetrisField::can_move_node(const Direction direction) const
 	return true;
 }
 
-bool TetrisField::move_node(const Direction direction)
+bool Tetris::move_node(const Direction direction)
 {
 	if (!can_move_node(direction))
 		return false;
 
 	switch (direction)
 	{
-	case TetrisField::Direction::down:
+	case Tetris::Direction::down:
 		cursor.row += 1;
 		break;
-	case TetrisField::Direction::left:
+	case Tetris::Direction::left:
 		cursor.col -= 1;
 		break;
-	case TetrisField::Direction::right:
+	case Tetris::Direction::right:
 		cursor.col += 1;
 		break;
 	}
@@ -431,7 +431,7 @@ bool TetrisField::move_node(const Direction direction)
 	return true;
 }
 
-int TetrisField::next_count(const int count) const
+int Tetris::next_count(const int count) const
 {
 	if (count < cycle)
 		return count + 1;
@@ -439,7 +439,7 @@ int TetrisField::next_count(const int count) const
 		return 0;
 }
 
-void TetrisField::deepcopy(Array2d& destination, const Array2d& source)
+void Tetris::deepcopy(Array2d& destination, const Array2d& source)
 {
 	destination.clear();
 	std::vector<bool> temp(source.front().size(), false);
@@ -455,7 +455,7 @@ void TetrisField::deepcopy(Array2d& destination, const Array2d& source)
 // @return
 // true -> '¡á'
 // false -> '¡¡'
-std::string TetrisField::get_shape_string(const bool value) const
+std::string Tetris::get_shape_string(const bool value) const
 {
 	if (value)
 		return std::string("¡á");
@@ -463,7 +463,7 @@ std::string TetrisField::get_shape_string(const bool value) const
 		return std::string("¡¡");
 }
 
-TetrisField::TetrisField()
+Tetris::Tetris()
 {
 	try {
 		map = new Array2d;
@@ -483,18 +483,18 @@ TetrisField::TetrisField()
 }
 
 // @param the cycle of game proceed
-TetrisField::TetrisField(int cycle) : TetrisField()
+Tetris::Tetris(int cycle) : Tetris()
 {
 	this->cycle = cycle;
 }
 
-TetrisField::~TetrisField()
+Tetris::~Tetris()
 {
 	delete map;
 	map = nullptr;
 }
 
-void TetrisField::start()
+void Tetris::start()
 {
 	console::hide_cursor();
 
@@ -502,7 +502,7 @@ void TetrisField::start()
 	print_out(true);
 }
 
-void TetrisField::update()
+void Tetris::update()
 {
 	int count = 0;
 	while (true)
@@ -571,7 +571,7 @@ void TetrisField::update()
 }
 
 // @warning maybe it not work correctly if input is long
-void TetrisField::title(const std::string& input) const
+void Tetris::title(const std::string& input) const
 {
 	std::string str;
 	// int pre_space = (field_width * 2 - input.size()) / 2;
@@ -586,7 +586,7 @@ void TetrisField::title(const std::string& input) const
 }
 
 // @brief ignore this
-void TetrisField::test()
+void Tetris::test()
 {
 	start();
 	update();

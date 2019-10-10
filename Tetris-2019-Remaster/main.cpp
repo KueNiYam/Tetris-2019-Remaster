@@ -2,7 +2,7 @@
 
 int main()
 {
-	TetrisField tetrisGame(10);
+	Tetris tetrisGame(10);
 	tetrisGame.title(std::string("Tetris Remaster 2019 By Kuenhwi"));
 	tetrisGame.start();
 	tetrisGame.update();

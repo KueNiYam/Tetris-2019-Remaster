@@ -7,7 +7,7 @@
 #include <set>
 #include "console.h"
 
-class TetrisField
+class Tetris
 {
 #pragma region Attribute
 private:
@@ -74,9 +74,9 @@ private:
 	void deepcopy(Array2d&, const Array2d&);
 	std::string get_shape_string(const bool) const;
 public:
-	TetrisField();
-	TetrisField(int);
-	~TetrisField(); // Important!!!
+	Tetris();
+	Tetris(int);
+	~Tetris(); // Important!!!
 	void start();
 	void update();
 	void title(const std::string& input) const;
