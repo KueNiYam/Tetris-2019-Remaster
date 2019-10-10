@@ -1,6 +1,6 @@
 # Tetris 2019 Remaster
 ## Introduction
-This project is a remaster version of my freshman project tetris 2014.
+Remaster version of my freshman project tetris 2014.
 
 ## Video Clip
 [![Video Label](http://img.youtube.com/vi/pjGOYjE6QsY/0.jpg)](https://youtu.be/pjGOYjE6QsY?t=0s)
