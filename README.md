@@ -7,7 +7,7 @@ This project is a remaster version of my freshman project tetris 2014.
 
 https://youtu.be/pjGOYjE6QsY?t=0s
 
-## Execute
+## Installation
 
 ## Improvements
  - Improve input response rate
