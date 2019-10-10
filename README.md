@@ -137,9 +137,82 @@ Keycode keydown();
 
 ------
 
-## Class TetrisField
+## Class Tetris
+### Private Field: 
 
+```c++
+typedef std::vector<std::vector<bool>> Array2d;
+```
 
+```c++
+struct Cursor
+{
+	int row;
+	int col;
+	...
+};
+```
+		
+```c++
+Cursor::Cursor(int row, int col);
+Cursor::Cursor();
+Cursor::Cursor(const struct Cursor& cursor);
+```
+
+```c++
+enum class Direction
+{
+	down, left, right
+};
+```
+
+```c++
+Cursor cursor;
+```
+
+```c++
+int cycle;
+```
+
+```c++
+Array2d* map;
+```
+
+```c++
+Array2d node;
+```
+
+```c++
+Array2d graphic;
+```
+
+```c++
+Array2d pregraphic;
+```
+
+### Public Field:
+```c++
+static const int node_size;
+```
+```c++
+static const int field_width;
+static const int field_height;
+```
+```c++
+static const int ingame_width;
+static const int ingame_height;
+```
+```c++
+static const int ingame_col_start;
+static const int ingame_col_end;
+```
+```c++
+static const int ingame_row_start;
+static const int ingame_row_end;
+```
+```c++
+static const Cursor start_point;
+```
 
 
 
