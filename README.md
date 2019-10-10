@@ -8,6 +8,7 @@ This project is a remaster version of my freshman project tetris 2014.
 https://youtu.be/pjGOYjE6QsY?t=0s
 
 ## Installation
+    git clone https://github.com/KueNiYam/Tetris-2019-Remaster
 
 ## Improvements
  - Improve input response rate
