@@ -1,11 +1,6 @@
 # Tetris 2019 Remaster
 ## Introduction
-**The remaster version of my freshman project tetris 2014.**
-<br><br>
-**Key:**
- - Up, Down, Left, Right
- - Spacebar
- - Esc
+**The remaster version of my freshman project tetris 2014 (URL: https://github.com/KueNiYam/CMD_tetris).**
  
 ## Video Clip
 [![Video Label](http://img.youtube.com/vi/pjGOYjE6QsY/0.jpg)](https://youtu.be/pjGOYjE6QsY?t=0s)
@@ -23,11 +18,16 @@ git clone https://github.com/KueNiYam/Tetris-2019-Remaster
 ```
 **else, just click "Clone or download" in https://github.com/KueNiYam/Tetris-2019-Remaster.**
 
-## Improvements
- - Improve input response rate
- - Change block from 3\*3 to 4\*4
- - Resolve memory leak
- - Remove output delay
+## Manipulation
+**Key:**
+
+`Up` `Down` `Left` `Right` `Spacebar` `Esc`
+
+## Improvements ☆☆☆
+ - Improve **input response delay**
+ - Change block from 3\*3 to **4\*4**
+ - Resolve **memory leak**
+ - Remove **output delay**
 
 ------
 # Documentation
