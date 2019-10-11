@@ -24,10 +24,10 @@ git clone https://github.com/KueNiYam/Tetris-2019-Remaster
 `Up` `Down` `Left` `Right` `Spacebar` `Esc`
 
 ## Improvements ☆☆☆
- - Improve **input response delay**
- - Change block from 3\*3 to **4\*4**
- - Resolve **memory leak**
- - Remove **output delay**
+ - **Improve input response delay**
+ - **Change block from 3\*3 to 4\*4**
+ - **Resolve memory leak**
+ - **Remove output delay**
 
 ------
 # Documentation
