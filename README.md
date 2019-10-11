@@ -443,7 +443,7 @@ std::string get_shape_string(const bool) const;
 >  - true -> return '■'
 >  - false -> return '　' (In korean keyboard, 'ㄱ' + 한자 + 1)
 
-### @Public METHOD\
+### @Public METHOD
 ```c++
 Tetris();
 Tetris(int);
