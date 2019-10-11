@@ -1,6 +1,6 @@
 # Tetris 2019 Remaster
 ## Introduction
-**The remaster version of my freshman project tetris 2014 (URL: https://github.com/KueNiYam/CMD_tetris).**
+**The remaster version of my freshman project *"tetris 2014"* (https://github.com/KueNiYam/CMD_tetris).**
  
 ## Video Clip
 [![Video Label](http://img.youtube.com/vi/pjGOYjE6QsY/0.jpg)](https://youtu.be/pjGOYjE6QsY?t=0s)
@@ -496,3 +496,7 @@ void test();
 >  - You can use this method for test.
  
 ------
+
+## GitHub Page
+
+***https://github.com/KueNiYam/Tetris-2019-Remaster***
