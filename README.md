@@ -7,8 +7,16 @@ Remaster version of my freshman project tetris 2014.
 
 https://youtu.be/pjGOYjE6QsY?t=0s
 
+## Requirements
+**OS**
+ - Windows
+
 ## Installation
-    git clone https://github.com/KueNiYam/Tetris-2019-Remaster
+**If you use git bash or wsl**
+``` 
+git clone https://github.com/KueNiYam/Tetris-2019-Remaster
+```
+**else just click "Clone or download" in https://github.com/KueNiYam/Tetris-2019-Remaster.**
 
 ## Improvements
  - Improve input response rate
@@ -46,8 +54,8 @@ struct Keycode {
  - The instance saves an ascii code of char. Only special character has a second ascii code.
 	
 ```c++
-    Keycode::Keycode();
-    Keycode::Keycode(int first, int second);
+Keycode::Keycode();
+Keycode::Keycode(int first, int second);
 ```
 
 **Brief**
@@ -59,7 +67,7 @@ struct Keycode {
  - Initialize the field to parameter.
  
 ```c++
-	bool Keycode::operator== (const struct Keycode&);
+bool Keycode::operator== (const struct Keycode&);
 ```
 
 **Brief**
@@ -144,6 +152,9 @@ Keycode keydown();
 typedef std::vector<std::vector<bool>> Array2d;
 ```
 
+**Brief**
+ - Array2d is data format of block or map.
+
 ```c++
 struct Cursor
 {
@@ -152,12 +163,21 @@ struct Cursor
 	...
 };
 ```
+
+**Brief**
+
+ - Cursor is the top left of block.
+ - Block's coordinate is represented using cursor in map.
 		
 ```c++
 Cursor::Cursor(int row, int col);
 Cursor::Cursor();
 Cursor::Cursor(const struct Cursor& cursor);
 ```
+
+**Brief**
+
+ - Cursor's constructor.
 
 ```c++
 enum class Direction
@@ -166,29 +186,49 @@ enum class Direction
 };
 ```
 
+**Brief**
+ - Direction means the direction to move.
+
 ```c++
 Cursor cursor;
 ```
+**Brief**
+ - Cursor's instance.
 
 ```c++
 int cycle;
 ```
+**Brief**
+ - cycle means frame time interval between outputs. 
 
 ```c++
 Array2d* map;
 ```
+**Brief**
+ - This points to map data.
+ 
+**Warning**
+ - When using this, be careful about memory leak.
 
 ```c++
 Array2d node;
 ```
+**Brief**
+ - This means current block's shape.
 
 ```c++
 Array2d graphic;
 ```
+**Brief**
+ - This means what will be printout.
+ - This is the result of calculating a map and a node.
 
 ```c++
 Array2d pregraphic;
 ```
+**Brief**
+ - Previous graphic.
+ - See "Array2d Tetris::graphic".
 
 ### Public Field:
 ```c++
