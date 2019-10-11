@@ -1,7 +1,12 @@
 # Tetris 2019 Remaster
 ## Introduction
-Remaster version of my freshman project tetris 2014.
-
+**The remaster version of my freshman project tetris 2014.**
+<br><br>
+**Key:**
+ - Up, Down, Left, Right
+ - Spacebar
+ - Esc
+ 
 ## Video Clip
 [![Video Label](http://img.youtube.com/vi/pjGOYjE6QsY/0.jpg)](https://youtu.be/pjGOYjE6QsY?t=0s)
 
