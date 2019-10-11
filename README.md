@@ -59,7 +59,7 @@ Keycode::Keycode(int first, int second);
 
 > **Brief**
 > - Constructor of struct Keycode.
- 
+> 
 > **Param**
 > - Initialize the field to parameter.
  
@@ -102,7 +102,7 @@ void move_cursor(const int row, const int col);
 
 > **Brief**
 > - Move cursor.
-
+>
 > **Param**
 > - Destination row and col.
 
@@ -112,7 +112,7 @@ void sleep(const int ms);
 
 > **Brief**
 > - Sleep.
-
+>
 > **Param**
 > - Time for sleep.
 
@@ -193,7 +193,7 @@ Array2d* map;
 > **Brief**
 >  - This points to map data.
 >  - map data is divided into three parts: the hidden part, the wall, and the game internal space.
- 
+> 
 > **Warning**
 >  - When using this, be careful about memory leak.
 >  - This should points meaningful value. Not nullptr or deallocated memory.
@@ -203,7 +203,7 @@ Array2d node;
 ```
 > **Brief**
 >  - This points to map data.
-
+>
 > **Warning**
 >  - When using this, be careful about memory leak.
 >  - This should points meaningful value. Not nullptr or deallocated memory.
@@ -220,7 +220,7 @@ Array2d pregraphic;
 ```
 > **Brief**
 >  - Previous graphic.
- 
+> 
 > **See** 
 >  - "Array2d Tetris::graphic"
 
@@ -265,7 +265,6 @@ static const Cursor start_point;
 void reset_cursor();
 ```
 > **Brief**
-
 >  - This set cursor(block's position) to starting position.
  
 ```c++
@@ -274,7 +273,7 @@ void init_map(Array2d& map) const;
 ```
 > **Brief**
 >  - These create the basic foundation of an empty map.
- 
+> 
 > **Exception**
 >  - The \*Tetris::map or param map should be empty. In other words, "(\*map).empty()" should be true.
 
@@ -284,7 +283,7 @@ std::vector<bool> *get_empty_map_row() const;
 > **Return**
 >  - This return an array of empty map data.
 >  - For example, {1, 1, 1, 1, 0, 0, ... , 0, 1, 1, 1, 1}
- 
+> 
 > **Warning**
 >  - You should deallocate return pointer!!
  
@@ -295,7 +294,7 @@ void init_node(Array2d&) const;
 > **Brief**
 >  - These create the basic foundation of an empty block.
 >  - These don't include a shape of block.
-
+>
 > **Exception**
 >  - The Tetris::node or param node should be empty. In other words, "node.empty()" should be true.
 
@@ -305,11 +304,11 @@ void set_node_shape(const int);
 ```
 > **Brief**
 >  - Set node's shape.
-
+>
 > **Param**
 >  - \[0, 7): The shape number.
 >  - If no param, This randomly determine the shape number.
-
+>
 > **Exception**
 >  - "Tetris::is_node(node)" should be true.
 
@@ -318,7 +317,7 @@ void clear_node();
 ```
 > **Brief**
 >  - This erase the shape of node. In other words, set the node's interval values to zero.
-
+>
 > **Exception**
 >  - "Tetris::is_node(node)" should be true.
 
@@ -328,7 +327,7 @@ bool can_rotate_node(const Array2d&) const;
 
 > **Brief**
 >  - Check node can rotate in the map state.
- 
+> 
 > **Param**
 >  - The shape after rotation.
 
@@ -338,7 +337,7 @@ void rotate_node();
 > **Brief**
 >  - If can rotate node, rotate node. In other words, set node to right rotation matrix of node.
 >  - else, nothing.
-
+>
 > **Exception**
 >  - "Tetris::is_node()" should be true.
  
@@ -367,7 +366,7 @@ void print_out(const bool) const;
 ```
 > **Brief**
 >  - This print out the game on the screen.
- 
+> 
 > **Param**
 >  - true -> print out whole.
 >  - false -> print out partially(only changed parts).
@@ -384,7 +383,7 @@ void break_floor(const std::set<int>&);
 ```
 > **Brief**
 >  - Break floor if can.
-
+>
 > **Usage**
 >  - Use after "apply_to_map()".
 >  - This don't need to check condition wherther floor should be breaked or no.
@@ -394,7 +393,7 @@ std::set<int> *check_break_rows() const;
 ```
 > **Return**
 >  - Set of row numbers where should break
-
+>
 > **Warning**
 >  - You should deallocate return pointer!!
  
@@ -403,7 +402,7 @@ bool is_gameover() const;
 ```
 > **Brief**
 >  - Check the gameover.
- 
+> 
 > **Usage**
 >  - Use after "break_floor()"
 
@@ -413,7 +412,7 @@ bool can_move_node(const Direction) const;
 > **Return**
 >  - If can move node, true.
 >  - else, false.
-
+>
 > **Param**
 >  - Where to move.
 
@@ -422,10 +421,10 @@ bool move_node(const Direction);
 ```
 > **Brief**
 >  - This move nodes. In other words, Change "Cursor Tetris::cursor".
-
+>
 > **Param**
 >  - Where to move.
- 
+>
 > **Return**
 >  - If can't move, false.
 >  - else, true.
