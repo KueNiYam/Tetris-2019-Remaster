@@ -439,7 +439,7 @@ int next_count(const int) const;
 ```
 > **Return**
 >  - The frame of the number for each cycle.
->  - Range `[0, cycle).
+>  - Range \[0, cycle).
  
 ```c++
 std::string get_shape_string(const bool) const;
