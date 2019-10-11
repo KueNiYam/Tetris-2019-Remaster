@@ -50,7 +50,6 @@ struct Keycode {
 };
 ```
 > **Brief**
- 
 > - The instance saves an ascii code of char. Only special character has a second ascii code.
 	
 ```c++
@@ -59,11 +58,9 @@ Keycode::Keycode(int first, int second);
 ```
 
 > **Brief**
-
 > - Constructor of struct Keycode.
  
 > **Param**
-
 > - Initialize the field to parameter.
  
 ```c++
@@ -71,7 +68,6 @@ bool Keycode::operator== (const struct Keycode&);
 ```
 
 > **Brief**
-
 > - Compare values not references.
  
 ```c++
@@ -79,7 +75,6 @@ const int frame_ms = 33;
 ```
 
 > **Brief**
-
 > - Time per frame.
 
 ```c++
@@ -92,7 +87,6 @@ const int spacebar = 32;
 ```
 
 > **Brief**
-
 > - Keycode value of specific keys.
 
 ```c++
@@ -100,7 +94,6 @@ void hide_cursor();
 ```
 
 > **Brief**
-
 > - Hide cursor.
 
 ```c++
@@ -108,11 +101,9 @@ void move_cursor(const int row, const int col);
 ```
 
 > **Brief**
-
 > - Move cursor.
 
 > **Param**
-
 > - Destination row and col.
 
 ```c++	
@@ -120,11 +111,9 @@ void sleep(const int ms);
 ```
 
 > **Brief**
-
 > - Sleep.
 
 > **Param**
-
 > - Time for sleep.
 
 ```c++
@@ -132,7 +121,6 @@ void sleep_one_frame();
 ```
 
 > **Brief**
-
 > - Sleep for time of one frame(const int frame_ms).
 
 ```c++
@@ -165,7 +153,6 @@ struct Cursor
 ```
 
 > **Brief**
-
 >  - Cursor is the top left of block.
 >  - Block's coordinate is represented using cursor in map.
 		
@@ -176,7 +163,6 @@ Cursor::Cursor(const struct Cursor& cursor);
 ```
 
 > **Brief**
-
 >  - Cursor's constructor.
 
 ```c++
