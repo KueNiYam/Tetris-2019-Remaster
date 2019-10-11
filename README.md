@@ -12,11 +12,11 @@ https://youtu.be/pjGOYjE6QsY?t=0s
  - Windows
 
 ## Installation
-**If you use git bash or wsl**
+**If you use git bash or wsl,**
 ``` 
 git clone https://github.com/KueNiYam/Tetris-2019-Remaster
 ```
-**else just click "Clone or download" in https://github.com/KueNiYam/Tetris-2019-Remaster.**
+**else, just click "Clone or download" in https://github.com/KueNiYam/Tetris-2019-Remaster.**
 
 ## Improvements
  - Improve input response rate
@@ -210,12 +210,17 @@ Array2d* map;
  
 **Warning**
  - When using this, be careful about memory leak.
+ - This should points meaningful value. Not nullptr or deallocated memory.
 
 ```c++
 Array2d node;
 ```
 **Brief**
- - This means current block's shape.
+ - This points to map data.
+
+**Warning**
+ - When using this, be careful about memory leak.
+ - This should points meaningful value. Not nullptr or deallocated memory.
 
 ```c++
 Array2d graphic;
@@ -354,42 +359,104 @@ void rotate_node();
 ```c++
 bool is_node(const Array2d&) const;
 ```
+**Return**
+ - If size fits block specification, true.
+ - else, false
+ 
 ```c++
 void init_graphic();
 ```
+**Brief**
+ - Just deep copy "map" data to "graphic".
+
 ```c++
 void render_graphic();
 ```
+**Brief**
+ - This calculate "map" and "node" to printout, and save result to "Array2d Tetris::graphic".
+ - The previous "graphic" is saved to "Array2d Tetris::pregraphic".
+
 ```c++
 void print_out(const bool) const;
 ```
+**Brief**
+ - This print out the game on the screen.
+ 
+**Param**
+ - true -> print out whole.
+ - false -> print out partially(only changed parts).
+
 ```c++
 void apply_to_map();
 ```
+**Brief**
+ - Copy "graphic" to "map".
+ - This means node lose control of the player and be part of the map.
+
 ```c++
 void break_floor(const std::set<int>&);
 ```
+**Brief**
+ - Break floor if can.
+
+**Usage**
+ - Use after "apply_to_map()".
+ - This don't need to check condition wherther floor should be breaked or no.
+
 ```c++
 std::set<int> *check_break_rows() const;
 ```
+**Return**
+ - Set of row numbers where should break
+
+**Warning**
+ - You should deallocate return pointer!!
+ 
 ```c++
 bool is_gameover() const;
 ```
+**Brief**
+ - Check the gameover.
+ 
+**Usage**
+ - Use after "break_floor()"
+
 ```c++
 bool can_move_node(const Direction) const;
 ```
+**Return**
+ - If can move node, true.
+ - else, false.
+
+**Param**
+ - Where to move.
+
 ```c++
 bool move_node(const Direction);
 ```
+**Brief**
+ - This move nodes. In other words, Change "Cursor Tetris::cursor".
+
+**Param**
+ - Where to move.
+ 
+**Return**
+ - If can't move, false.
+ - else, true.
+
 ```c++
 int next_count(const int) const;
 ```
-```c++
-void deepcopy(Array2d&, const Array2d&);
-```
+**Return**
+ - The frame of the number for each cycle.
+ - Range `[0, cycle).
+ 
 ```c++
 std::string get_shape_string(const bool) const;
 ```
+**Param**
+ - true -> return '■'
+ - false -> return '　' (In korean keyboard, 'ㄱ' + 한자 + 1)
 
 ### Public METHOD:
 
