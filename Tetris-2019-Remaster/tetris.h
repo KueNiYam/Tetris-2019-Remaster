@@ -31,8 +31,8 @@ private:
 	int cycle; //< print out cycle
 
 	Array2d* map;
+	Array2d* node;
 
-	Array2d node;
 	Array2d graphic;
 	Array2d pregraphic;
 public:

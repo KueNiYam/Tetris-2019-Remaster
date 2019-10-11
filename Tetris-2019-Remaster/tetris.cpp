@@ -68,7 +68,7 @@ void Tetris::init_map(Array2d& map) const
 	}
 }
 
-// @warning you should delete return pointer!!
+// @warning you should deallocate return pointer!!
 std::vector<bool> *Tetris::get_empty_map_row() const
 {
 	try {
@@ -90,7 +90,7 @@ std::vector<bool> *Tetris::get_empty_map_row() const
 // @brief init this->current_node to node
 void Tetris::init_node()
 {
-	init_node(node);
+	init_node(*node);
 }
 
 // @brief init array2d to node
@@ -118,7 +118,7 @@ void Tetris::set_node_shape()
 // @lparam [0,7)
 void Tetris::set_node_shape(const int shape_num)
 {
-	if (!is_node(node))
+	if (!is_node(*node))
 	{
 		std::cerr << "set_node_shape(): lparam must be node" << std::endl;
 		exit(1);
@@ -133,44 +133,44 @@ void Tetris::set_node_shape(const int shape_num)
 	switch (shape_num)
 	{
 	case 0:
-		for (unsigned int i = 0; i < node.size(); i++)
-			node[i][1] = true;
+		for (unsigned int i = 0; i < node->size(); i++)
+			(*node)[i][1] = true;
 		break;
 	case 1:
-		node[0][2] = true;
-		node[1][2] = true;
-		node[2][1] = true;
-		node[2][2] = true;
+		(*node)[0][2] = true;
+		(*node)[1][2] = true;
+		(*node)[2][1] = true;
+		(*node)[2][2] = true;
 		break;
 	case 2:
-		node[0][1] = true;
-		node[1][1] = true;
-		node[2][1] = true;
-		node[2][2] = true;
+		(*node)[0][1] = true;
+		(*node)[1][1] = true;
+		(*node)[2][1] = true;
+		(*node)[2][2] = true;
 		break;
 	case 3:
-		node[0][1] = true;
-		node[1][1] = true;
-		node[1][2] = true;
-		node[2][2] = true;
+		(*node)[0][1] = true;
+		(*node)[1][1] = true;
+		(*node)[1][2] = true;
+		(*node)[2][2] = true;
 		break;
 	case 4:
-		node[1][1] = true;
-		node[1][2] = true;
-		node[2][1] = true;
-		node[2][2] = true;
+		(*node)[1][1] = true;
+		(*node)[1][2] = true;
+		(*node)[2][1] = true;
+		(*node)[2][2] = true;
 		break;
 	case 5:
-		node[0][2] = true;
-		node[1][2] = true;
-		node[1][1] = true;
-		node[2][1] = true;
+		(*node)[0][2] = true;
+		(*node)[1][2] = true;
+		(*node)[1][1] = true;
+		(*node)[2][1] = true;
 		break;
 	case 6:
-		node[1][0] = true;
-		node[1][1] = true;
-		node[1][2] = true;
-		node[2][1] = true;
+		(*node)[1][0] = true;
+		(*node)[1][1] = true;
+		(*node)[1][2] = true;
+		(*node)[2][1] = true;
 		break;
 	}
 }
@@ -178,15 +178,15 @@ void Tetris::set_node_shape(const int shape_num)
 // @brief make all node value false(0)
 void Tetris::clear_node()
 {
-	if (!is_node(node))
+	if (!is_node(*node))
 	{
 		std::cerr << "clear_node(): param must be node" << std::endl;
 		exit(1);
 	}
 
-	for (unsigned int i = 0; i < node.size(); i++)
-		for (unsigned int j = 0; j < node.front().size(); j++)
-			node[i][j] = false;
+	for (unsigned int i = 0; i < node->size(); i++)
+		for (unsigned int j = 0; j < node->front().size(); j++)
+			(*node)[i][j] = false;
 }
 
 bool Tetris::can_rotate_node(const Array2d& next_shape) const
@@ -206,28 +206,47 @@ bool Tetris::can_rotate_node(const Array2d& next_shape) const
 // @brief rotate node to right
 void Tetris::rotate_node()
 {
-	if (!is_node(node))
+	if (!is_node(*node))
 	{
 		std::cerr << "rotate_node(): param must be node" << std::endl;
 		exit(1);
 	}
 
-	Array2d temp;
-	init_node(temp);
-
-	int new_i, new_j;
-	for (unsigned int i = 0; i < node.size(); i++)
+	try
 	{
-		for (unsigned int j = 0; j < node.front().size(); j++)
+		Array2d* new_node = new Array2d;
+		Array2d* temp = nullptr;
+		init_node(*new_node);
+
+		int new_i, new_j;
+		for (unsigned int i = 0; i < node->size(); i++)
 		{
-			new_i = j;
-			new_j = node.size() - i - 1;
-			temp[new_i][new_j] = node[i][j];
+			for (unsigned int j = 0; j < node->front().size(); j++)
+			{
+				new_i = j;
+				new_j = node->size() - i - 1;
+				(*new_node)[new_i][new_j] = (*node)[i][j];
+			}
+		}
+
+		if (can_rotate_node(*new_node))
+		{
+			temp = node;
+			node = new_node;
+			delete temp;
+			temp = nullptr;
+		}
+		else
+		{
+			delete new_node;
+			new_node = nullptr;
 		}
 	}
-
-	if (can_rotate_node(temp))
-		node.swap(temp);
+	catch (const std::bad_alloc& e)
+	{
+		std::cerr << "TetrisField::rotate_node(): dynamic allocation error" << std::endl;
+		exit(1);
+	}
 }
 
 bool Tetris::is_node(const Array2d& node) const
@@ -254,7 +273,7 @@ void Tetris::render_graphic()
 	{
 		for (int j = cursor.col; j < cursor.col + node_size; j++)
 		{
-			graphic[i][j] = (graphic[i][j] | node[i - cursor.row][j - cursor.col]);
+			graphic[i][j] = (graphic[i][j] | (*node)[i - cursor.row][j - cursor.col]);
 		}
 	}
 }
@@ -402,7 +421,7 @@ bool Tetris::can_move_node(const Direction direction) const
 	{
 		for (int j = next.col; j < next.col + node_size; j++)
 		{
-			if ((*map)[i][j] & node[i - next.row][j - next.col])
+			if ((*map)[i][j] & (*node)[i - next.row][j - next.col])
 				return false;
 		}
 	}
@@ -467,6 +486,7 @@ Tetris::Tetris()
 {
 	try {
 		map = new Array2d;
+		node = new Array2d;
 	}
 	catch (const std::bad_alloc & e)
 	{
@@ -492,6 +512,8 @@ Tetris::~Tetris()
 {
 	delete map;
 	map = nullptr;
+	delete node;
+	node = nullptr;
 }
 
 void Tetris::start()
