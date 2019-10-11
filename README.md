@@ -35,10 +35,10 @@ git clone https://github.com/KueNiYam/Tetris-2019-Remaster
 ```c++
 int main()
 {
-    TetrisField tetrisGame(10);
-    tetrisGame.title(std::string("Tetris Remaster 2019 By Kuenhwi"));
-    tetrisGame.start();
-    tetrisGame.update();
+    TetrisField tetrisGame(10); //< Create instance and set print cycle at once every ten times
+    tetrisGame.title(std::string("Tetris Remaster 2019 By Kuenhwi")); //< Set title
+    tetrisGame.start(); //< Prepare for the start of a game
+    tetrisGame.update(); //< Keep the game going
     
     return 0;
 }
