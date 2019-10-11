@@ -185,7 +185,7 @@ Cursor cursor;
 int cycle;
 ```
 > **Brief**
->  - cycle means frame time interval between outputs. 
+>  - cycle means frame interval time between outputs. 
 
 ```c++
 Array2d* map;
@@ -443,10 +443,51 @@ std::string get_shape_string(const bool) const;
 >  - true -> return '■'
 >  - false -> return '　' (In korean keyboard, 'ㄱ' + 한자 + 1)
 
-### @Public METHOD:
+### @Public METHOD\
+```c++
+Tetris();
+Tetris(int);
+```
+> **Brief**
+>  - The constructor of Tetris class.
+>  
+> **Param**
+>  - Set frame interval time between outputs.
+ 
+```c++
+~Tetris();
+```
+> **Brief**
+>  - The destructor of Tetris class.
+>  - You should deallocate memories that the member pointers refer to if you did allocate the memories.
+ 
+```c++
+void start();
+```
+> **Brief**
+>  - Before game's loop, here, the developer can do something to prepare for.
+>  - Currently the "start()" method hide cursor and set first node's shape, print out the first scene.
+ 
+```c++
+void update();
+```
+> **Brief**
+>  - The "update()" is method that has infinite loop.
+>  - This method is responsible for everything about the game progress.
 
+```c++
+void title(const std::string& input) const;
+```
+> **Brief**
+>  - This print out on the top of console window with center alignment by tetris.
+>  
+> **Param**
+>  - The param what you want to print out as a title.
 
-
-
-
+```c++
+void test();
+```
+> **Brief**
+>  - You can use this method for test.
+ 
 ------
