@@ -71,7 +71,6 @@ private:
 	bool can_move_node(const Direction) const;
 	bool move_node(const Direction);
 	int next_count(const int) const;
-	void deepcopy(Array2d&, const Array2d&);
 	std::string get_shape_string(const bool) const;
 public:
 	Tetris();

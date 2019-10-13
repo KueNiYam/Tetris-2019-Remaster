@@ -280,7 +280,7 @@ void Tetris::render_graphic()
 
 // @param
 // true -> print out whole
-// false -> print out partially
+// false -> print out partially(only changed parts)
 void Tetris::print_out(const bool whole) const
 {
 	if (whole)
@@ -458,19 +458,6 @@ int Tetris::next_count(const int count) const
 		return 0;
 }
 
-void Tetris::deepcopy(Array2d& destination, const Array2d& source)
-{
-	destination.clear();
-	std::vector<bool> temp(source.front().size(), false);
-
-	for (unsigned int i = 0; i < source.size(); i++)
-		destination.push_back(temp);
-
-	for (unsigned int i = 0; i < source.size(); i++)
-		for (unsigned int j = 0; j < source.front().size(); j++)
-			destination[i][j] = source[i][j];
-}
-
 // @return
 // true -> '¡á'
 // false -> '¡¡'
@@ -592,7 +579,6 @@ void Tetris::update()
 	}
 }
 
-// @warning maybe it not work correctly if input is long
 void Tetris::title(const std::string& input) const
 {
 	std::string str;
